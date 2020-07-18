@@ -72,7 +72,12 @@ namespace NKHook_Launcher
 
         private void DownloadNKH_Button_Click(object sender, RoutedEventArgs e)
         {
-            NKHook.DownloadNKH();
+            if (!BgThread.IsRunning())
+            {
+                var thread = new System.Threading.Thread(() => NKHook.DownloadNKH("NKHook5", NKHook.gitReleaseInfo, NKHook.nkhDir));
+                BgThread.Run(thread);
+            }
+            
         }
     }
 }

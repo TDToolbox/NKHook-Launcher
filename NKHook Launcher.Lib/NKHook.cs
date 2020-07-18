@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Forms;
+using NKHook_Launcher;
 
 namespace NKHook_Launcher.Lib
 {
@@ -14,12 +16,11 @@ namespace NKHook_Launcher.Lib
     {
         public static string nkhDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\NKHook5";
         public static string nkhEXE = nkhDir + "\\NKHook5-Injector.exe";
-        //public static string gitVersionURL = "https://raw.githubusercontent.com/TDToolbox/BTDToolbox-2019_LiveFIles/master/Version";
-        public static string gitVersionURL = "https://raw.githubusercontent.com/TDToolbox/BTDToolbox-2019_LiveFIles/master/nkhook%20version%20info";
+        public static string gitReleaseInfo = "https://api.github.com/repos/DisabledMallis/NKHook5/releases";
 
         public static void OpenNkhDir()
         {
-            if(!DoesNkhExist())
+            if (!Directory.Exists(nkhDir))
             {
                 Log.Output("Error! NKHook is not installed");
                 return;
@@ -46,14 +47,30 @@ namespace NKHook_Launcher.Lib
             Process.Start(nkhEXE);
         }
 
-        public static void DownloadNKH()
+        public static void DownloadNKH(string filename, string url, string savePath)
         {
-            if (!BgThread.IsRunning())
+            Log.Output("Downloading latest " + filename + "...");
+
+            string git_Text = WebHandler.ReadText_FromURL(url);
+            if (!Guard.IsStringValid(git_Text))
             {
-                WebHandler web = new WebHandler();
-                var thread = new System.Threading.Thread(() => web.DownloadFile("NKHook5", gitVersionURL, nkhDir, "NKHook5: ", 3));
-                BgThread.Run(thread);
+                MessageBox.Show("Failed to read release info for " + filename);
+                return;
             }
+
+            var gitApi = GitApi.FromJson(git_Text);
+            foreach (var a in gitApi)
+            {
+                foreach (var b in a.Assets)
+                {
+                    string link = b.BrowserDownloadUrl.ToString();
+                    if (!Guard.IsStringValid(link))
+                        continue;
+
+                    WebHandler.DownloadFile(link, savePath);
+                }
+            }
+            Log.Output(filename + " successfully downloaded!");
         }
     }    
 }

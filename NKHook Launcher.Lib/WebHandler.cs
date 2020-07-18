@@ -12,113 +12,69 @@ namespace NKHook_Launcher.Lib
 {
     class WebHandler
     {
-        WebHandler reader;
+        private static WebClient client;
 
-        bool exitLoop = false;
-        public string startURL { get; set; }
-        public string readURL { get; set; }
-        public string LatestVersionNumber { get; set; }
-        public bool urlAquired { get; set; }
-
-        public void DownloadFile(string filename, string url, string savePath, string replaceText, int linenumber)
+        /// <summary>
+        /// Download file from URL
+        /// </summary>
+        /// <param name="url">download url</param>
+        /// <param name="dest">file destination. Just needs directory, doesn't need file name</param>
+        public static void DownloadFile(string url, string dest)
         {
-            Log.Output("Downloading latest " + filename + "...");
-            
-            WebClient client = new WebClient();
-            string git_Text = ReadText_FromURL(url);
-            var gitText_Split = git_Text.Split(new[] { '\r', '\n' });
+            if (client == null)
+                client = new WebClient();
 
-           
-           //string updaterURL = processGit_Text(git_Text, replaceText, linenumber);
+            string tempDir = Environment.CurrentDirectory + "\\temp";
+            string tempDest = tempDir + "\\file";
 
-            /*if (File.Exists(Environment.CurrentDirectory + "\\" + filename))
-                File.Delete(Environment.CurrentDirectory + "\\" + filename);*/
+            string[] split = url.Split('/');
+            string file = split[split.Length-1];
+            dest = dest + "\\" + file;
 
+            if (!Directory.Exists(tempDir))
+                Directory.CreateDirectory(tempDir);
 
-            foreach (var link in gitText_Split)
+            for (int i = 0; i < 150; i++)
             {
-                if (!Guard.IsStringValid(link))
-                    continue;
-
-                string[] split = link.Split('\\');
-                string file = split[split.Length - 1];
-                string downloadPath = Environment.CurrentDirectory + "\\avc";// + "\\" + file;
-
-                string testURL = "https://github.com/DisabledMallis/NKHook5/releases/download/pre-1/NKHook5-Injector.exe";
-                for (int i = 0; i < 150; i++)
-                {
-                    try 
-                    {
-                        MessageBox.Show(link);
-                        client.DownloadFile(testURL, downloadPath);
-                        File.Move(downloadPath, savePath + "\\" + file);
-                        //File.Delete(downloadPath);
-                        break; 
-                    }
-                    catch { throw; }
-                    Thread.Sleep(50);
-                }
+                try{ client.DownloadFile(url, tempDest); break; }
+                catch { }
+                Thread.Sleep(50);
             }
-            
-            Log.Output(filename + " successfully downloaded!");
+
+            if (File.Exists(dest))
+                File.Delete(dest);
+
+            File.Move(tempDest, dest);
+            Directory.Delete(tempDir, true);
         }
 
 
-        private string ReadText_FromURL(string url)
+        /// <summary>
+        /// Downloads string of text from the URL
+        /// </summary>
+        /// <param name="url">URL to get string of text from</param>
+        /// <returns>String of text or nothing</returns>
+        public static string ReadText_FromURL(string url)
         {
             string result = "";
             WebClient client = new WebClient();
+            client.Headers.Add("user-agent", " Mozilla/5.0 (Windows NT 6.1; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0");
 
             for (int i = 0; i <= 250; i++)
             {
                 Thread.Sleep(100);
                 try
                 {
-                    if (exitLoop)
-                        break;
-
-                    readURL = client.DownloadString(url);
-                    if (!Guard.IsStringValid(readURL))
+                    result = client.DownloadString(url);
+                    
+                    if (!Guard.IsStringValid(result))
                         continue;
 
-                    urlAquired = true;
-                    result = readURL;
                     break;
                 }
-                catch { }
+                catch { throw; }
             }
             return result;
-        }
-
-
-       /* /// <summary>
-        /// Complete method. Waits on URL then reads and returns text from it
-        /// </summary>
-        /// <param name="url">url to read text from</param>
-        /// <returns>text read off of website</returns>
-        public string WaitOn_URL(string url)   //call this one to read the text from the git url
-        {
-            WebHandler get = new WebHandler();
-            get.startURL = url;
-            get.ReadText_FromURL(startURL);
-
-            for (int i = 0; i <= 100; i++)
-            {
-                Thread.Sleep(100);
-                if (get.urlAquired)
-                    break;
-            }
-            return get.readURL;
-        }*/
-
-
-        public string processGit_Text(string url, string deleteText, int lineNumber)    //call this one read git text and return the url we want. Delete text is the starting word, for example "toolbox2019: "
-        {
-            if (!Guard.IsStringValid(url))
-                return null;
-
-            string[] split = url.Split('\n');
-            return split[lineNumber].Replace(deleteText, "");
         }
     }
 }

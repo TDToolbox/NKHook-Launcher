@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NKHook_Launcher"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="450" MinHeight="200" MinWidth="150">
+        Title="NKHook Launcher" Height="600" Width="450" MinHeight="200" MinWidth="150">
     <Grid Background="#FF282828">
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
@@ -20,13 +20,14 @@
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="50"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="7*"/>
             <ColumnDefinition Width="50"/>
         </Grid.ColumnDefinitions>
 
-        <Image x:Name="NKH_Image" Grid.Column="1" Grid.Row="1" Source="Graphics/nkhook picture.png" Stretch="Uniform" MaxHeight="300" MaxWidth="400" Margin="50,0,50,25"/>
+        <Image x:Name="NKH_Image" Grid.Column="1" Grid.Row="1" Source="Graphics/nkhook picture.png" Stretch="Uniform" MaxHeight="300" MaxWidth="400" Margin="50,0,50,1" Grid.ColumnSpan="2" Grid.RowSpan="4"/>
 
-        <Viewbox Stretch="Uniform"  Grid.Row="2" Grid.Column="1">
+        <Viewbox Stretch="Uniform"  Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,9,0,-36" Grid.RowSpan="2">
             <Grid x:Name="OpenNkhDir">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="20"/>
@@ -45,7 +46,7 @@
 
 
 
-        <Viewbox Stretch="Uniform"  Grid.Row="3" Grid.Column="1">
+        <Viewbox Stretch="Uniform"  Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,57,0,-98">
             <Grid x:Name="OpenBTD5Dir">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="20"/>
@@ -61,10 +62,10 @@
                 <Button x:Name="OpenBTD5Dir_Button" Grid.Row="1" Grid.Column="1" MinHeight="15" Content="  Open BTD5 Directory  " Click="OpenBTD5Dir_Button_Click"/>
             </Grid>
         </Viewbox>
-        
 
 
-        <Viewbox Stretch="Uniform"  Grid.Row="4" Grid.Column="1">
+
+        <Viewbox Stretch="Uniform"  Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,119,0,-158">
             <Grid x:Name="BrowseForPlugin">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="20"/>
@@ -83,7 +84,7 @@
 
 
 
-        <Viewbox Stretch="Uniform"  Grid.Row="5" Grid.Column="1">
+        <Viewbox Stretch="Uniform"  Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,179,0,-224">
             <Grid x:Name="DownloadNKH">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="20"/>
@@ -96,14 +97,14 @@
                     <RowDefinition Height="5"/>
                 </Grid.RowDefinitions>
 
-                <Button x:Name="DownloadNKH_Button" Grid.Row="1" Grid.Column="1" MinHeight="15" Content="  Download NKHook  " Click="DownloadNKH_Button_Click"/>
+                <Button x:Name="DownloadNKH_Button" x:FieldModifier="public"  Grid.Row="1" Grid.Column="1" MinHeight="15" Content="  Download NKHook  " Click="DownloadNKH_Button_Click"/>
             </Grid>
         </Viewbox>
 
 
 
 
-        <Viewbox Stretch="Uniform"  Grid.Row="6" Grid.Column="1">
+        <Viewbox Stretch="Uniform"  Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,245,0,-287">
             <Grid x:Name="RunNKH">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="20"/>
