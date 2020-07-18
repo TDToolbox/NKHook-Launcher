@@ -1,0 +1,105 @@
+﻿<Window x:Class="NKHook_Launcher.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NKHook_Launcher"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="450" MinHeight="200" MinWidth="150">
+    <Grid Background="#FF282828">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="50"/>
+        </Grid.ColumnDefinitions>
+
+        <Image x:Name="NKH_Image" Grid.Column="1" Grid.Row="1" Source="Graphics/nkhook picture.png" Stretch="Uniform" MaxHeight="300" MaxWidth="400" Margin="50,0,50,25"/>
+
+        <Viewbox Stretch="Uniform"  Grid.Row="2" Grid.Column="1">
+            <Grid x:Name="OpenNkhDir">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="20"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="5"/>
+                </Grid.RowDefinitions>
+
+                <Button x:Name="OpenNkhDir_Button" Grid.Row="1" Grid.Column="1" MinHeight="15" Content="  Open NKH Directory  " Click="OpenNkhDir_Button_Click"/>
+            </Grid>
+        </Viewbox>
+
+
+
+        <Viewbox Stretch="Uniform"  Grid.Row="3" Grid.Column="1">
+            <Grid x:Name="OpenBTD5Dir">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="20"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="5"/>
+                </Grid.RowDefinitions>
+
+                <Button x:Name="OpenBTD5Dir_Button" Grid.Row="1" Grid.Column="1" MinHeight="15" Content="  Open BTD5 Directory  " Click="OpenBTD5Dir_Button_Click"/>
+            </Grid>
+        </Viewbox>
+        
+
+
+        <Viewbox Stretch="Uniform"  Grid.Row="4" Grid.Column="1">
+            <Grid x:Name="BrowseForPlugin">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="20"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="5"/>
+                </Grid.RowDefinitions>
+
+                <Button x:Name="BrowseForPlugin_Button" Grid.Row="1" Grid.Column="1" MinHeight="15" Content="          Add Plugins          " Click="BrowseForPlugin_Button_Click"/>
+            </Grid>
+        </Viewbox>
+
+
+
+
+        <Viewbox Stretch="Uniform"  Grid.Row="5" Grid.Column="1">
+            <Grid x:Name="RunNKH">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="20"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="5"/>
+                </Grid.RowDefinitions>
+
+                <Button x:Name="RunNKH_Button" Grid.Row="1" Grid.Column="1" MinHeight="15" Content="          Run NKH          " Click="RunNKH_Button_Click"/>
+            </Grid>
+        </Viewbox>
+
+    </Grid>
+</Window>
