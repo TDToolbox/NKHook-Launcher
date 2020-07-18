@@ -25,7 +25,10 @@ namespace NKHook_Launcher
     {
         public MainWindow()
         {
-            InitializeComponent(); 
+            InitializeComponent();
+
+            if (NKHook.DoesNkhExist())
+                DownloadNKH_Button.Content = "  Re-download NKHook  ";
         }
 
         private void OpenNkhDir_Button_Click(object sender, RoutedEventArgs e)
@@ -60,7 +63,16 @@ namespace NKHook_Launcher
 
         private void RunNKH_Button_Click(object sender, RoutedEventArgs e)
         {
-            NKHook.LaunchNKH();
+            if (!BgThread.IsRunning())
+                NKHook.LaunchNKH();
+            else
+                MessageBox.Show("Can't run the game, currently doing something. " +
+                    "Please wait about 30 seconds and try again");
+        }
+
+        private void DownloadNKH_Button_Click(object sender, RoutedEventArgs e)
+        {
+            NKHook.DownloadNKH();
         }
     }
 }

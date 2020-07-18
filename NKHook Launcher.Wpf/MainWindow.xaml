@@ -83,8 +83,27 @@
 
 
 
-
         <Viewbox Stretch="Uniform"  Grid.Row="5" Grid.Column="1">
+            <Grid x:Name="DownloadNKH">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="20"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="5"/>
+                </Grid.RowDefinitions>
+
+                <Button x:Name="DownloadNKH_Button" Grid.Row="1" Grid.Column="1" MinHeight="15" Content="  Download NKHook  " Click="DownloadNKH_Button_Click"/>
+            </Grid>
+        </Viewbox>
+
+
+
+
+        <Viewbox Stretch="Uniform"  Grid.Row="6" Grid.Column="1">
             <Grid x:Name="RunNKH">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="20"/>
@@ -97,7 +116,7 @@
                     <RowDefinition Height="5"/>
                 </Grid.RowDefinitions>
 
-                <Button x:Name="RunNKH_Button" Grid.Row="1" Grid.Column="1" MinHeight="15" Content="          Run NKH          " Click="RunNKH_Button_Click"/>
+                <Button x:Name="RunNKH_Button" Grid.Row="1" Grid.Column="1" MinHeight="15" Content="           Run NKH           " Click="RunNKH_Button_Click"/>
             </Grid>
         </Viewbox>
 
