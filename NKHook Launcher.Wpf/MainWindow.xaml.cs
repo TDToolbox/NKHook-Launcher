@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -38,10 +39,7 @@ namespace NKHook_Launcher
             }
         }
 
-        private void OpenNkhDir_Button_Click(object sender, RoutedEventArgs e)
-        {
-            NKHook.OpenNkhDir();
-        }
+        private void OpenNkhDir_Button_Click(object sender, RoutedEventArgs e) => NKHook.OpenNkhDir();
 
         private void OpenBTD5Dir_Button_Click(object sender, RoutedEventArgs e)
         {

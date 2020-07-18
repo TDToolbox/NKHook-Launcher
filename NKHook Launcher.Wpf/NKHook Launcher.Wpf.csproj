@@ -110,5 +110,11 @@
   <ItemGroup>
     <Resource Include="Resources\NKHook launcher.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\NK_Leaves.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\2d vine.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

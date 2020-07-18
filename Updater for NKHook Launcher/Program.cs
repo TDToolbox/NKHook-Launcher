@@ -35,6 +35,9 @@ namespace Updater_for_NKHook_Launcher
                 {
                     foreach (ZipArchiveEntry entry in archive.Entries)
                     {
+                        if (entry.FullName.ToLower().Contains("update"))
+                            continue;
+
                         string destinationPath = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, entry.FullName));
                         if (destinationPath.StartsWith(Environment.CurrentDirectory, StringComparison.Ordinal))
                         {
@@ -65,7 +68,7 @@ namespace Updater_for_NKHook_Launcher
                     }
                 }
 
-                Thread.Sleep(100);
+                Thread.Sleep(350);
             }
         }
 
@@ -76,11 +79,8 @@ namespace Updater_for_NKHook_Launcher
 
             foreach (var a in openWindowProcesses)
             {
-                //if (a.MainWindowTitle == windowMainTitle)
                 if (a.MainWindowTitle == windowMainTitle)
-                {
                     return true;
-                }
             }
             return false;
         }
