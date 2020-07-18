@@ -9,6 +9,13 @@ using System.Threading.Tasks;
 
 namespace NKHook_Launcher.Lib
 {
+    public enum Game
+    {
+        BTD5,
+        BTDB,
+        BMC
+    }
+
     public class SteamUtils
     {
         public const UInt64 BTD5AppID = 306020;
@@ -23,6 +30,8 @@ namespace NKHook_Launcher.Lib
         private static Dictionary<UInt64, string> steamGames = new Dictionary<UInt64, string>
         {{BTD5AppID, BTD5Name}, {BTDBAppID, BTDBName}, {BMCAppID, BMCName}};
 
+        private static Dictionary<Game, UInt64> steamGames_gameName = new Dictionary<Game, UInt64>
+        {{Game.BTD5, BTD5AppID}, {Game.BTDB, BTDBAppID}, {Game.BMC, BMCAppID}};
 
         private class Utils
         {
@@ -38,21 +47,30 @@ namespace NKHook_Launcher.Lib
             }
         }
 
-        public static UInt64 GetGameID(string gameName)
+        /// <summary>
+        /// Get steam game ID from the game name
+        /// </summary>
+        /// <param name="gameName">Game you want the steamID for</param>
+        /// <returns>steam id for game, or zero if it failed</returns>
+        public static UInt64 GetGameID(Game gameName)
         {
-            if (gameName == "BTD5")
+            if (gameName == Game.BTD5)
                 return BTD5AppID;
-            if (gameName == "BTDB")
+            else if (gameName == Game.BTDB)
                 return BTDBAppID;
-            if (gameName == "BMC")
+            else if (gameName == Game.BMC)
                 return BMCAppID;
             return 0;
         }
 
-        public static bool IsGameRunning()
+        /// <summary>
+        /// Check if any of the game is running
+        /// </summary>
+        /// <returns>Whether or not the game is running</returns>
+        public static bool IsGameRunning(Game gameName)
         {
             int isGameRunning = (int)Registry.GetValue(Registry.CurrentUser +
-                "\\Software\\Valve\\Steam\\Apps\\" + BTD5AppID, "Running", null);
+                "\\Software\\Valve\\Steam\\Apps\\" + GetGameID(gameName), "Running", null);
             if (isGameRunning == 1) // Cant type true because its of type System.Bool.
             {
                 return true;
@@ -63,11 +81,26 @@ namespace NKHook_Launcher.Lib
             }
         }
 
-        public static string GetGameDir()
-        {
-            return GetGameDir(BTD5AppID, BTD5Name);
-        }
+        /// <summary>
+        /// Get game directory from steam ID
+        /// </summary>
+        /// <param name="appid">steam ID for the game you want the directory for</param>
+        /// <returns>Game directory for game</returns>
+        public static string GetGameDir(UInt64 appid) => GetGameDir(appid, steamGames[appid]);
 
+        /// <summary>
+        /// Get game directory from Game Enum
+        /// </summary>
+        /// <param name="game">Game to get directory for</param>
+        /// <returns>Game directory for game</returns>
+        public static string GetGameDir(Game game) => GetGameDir(steamGames_gameName[game]);
+
+        /// <summary>
+        /// Get game directory from steam app ID and game name
+        /// </summary>
+        /// <param name="appid">steam ID for the game you want the directory for</param>
+        /// <param name="gameName">Name of the game you want the directory for</param>
+        /// <returns>Game directory for game</returns>
         public static string GetGameDir(UInt64 appid, string gameName)
         {
             string steamDir = (string)Registry.GetValue(Registry.CurrentUser +
@@ -137,7 +170,7 @@ namespace NKHook_Launcher.Lib
                 }
             }
 
-            //Log.Output(gameName + "'s Directory not found!");
+            Log.Output(gameName + "'s Directory not found!");
             return null;
         }
     }

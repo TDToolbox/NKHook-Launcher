@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace NKHook_Launcher.Lib
 {
+    /// <summary>
+    /// Background thread class. Used to manage threading in the application
+    /// </summary>
     public class BgThread
     {
         #region Properties
@@ -21,6 +24,9 @@ namespace NKHook_Launcher.Lib
             }
         }
 
+        /// <summary>
+        /// System.Thread instance for this class. It is a singleton
+        /// </summary>
         private static Thread Instance { get; set; }
 
         #endregion

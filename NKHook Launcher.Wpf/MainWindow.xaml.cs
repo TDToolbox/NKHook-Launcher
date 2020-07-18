@@ -38,7 +38,7 @@ namespace NKHook_Launcher
 
         private void OpenBTD5Dir_Button_Click(object sender, RoutedEventArgs e)
         {
-            string gameDir = SteamUtils.GetGameDir();
+            string gameDir = SteamUtils.GetGameDir(Game.BTD5);
             if (!Guard.IsStringValid(gameDir))
             {
                 Log.Output("Error! Failed to find BTD5 Directory");
@@ -74,7 +74,7 @@ namespace NKHook_Launcher
         {
             if (!BgThread.IsRunning())
             {
-                var thread = new System.Threading.Thread(() => NKHook.DownloadNKH("NKHook5", NKHook.gitReleaseInfo, NKHook.nkhDir));
+                var thread = new System.Threading.Thread(() => NKHook.DownloadNKH());
                 BgThread.Run(thread);
             }
             

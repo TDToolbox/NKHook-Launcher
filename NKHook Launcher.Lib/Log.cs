@@ -10,6 +10,10 @@ namespace NKHook_Launcher.Lib
 {
     public class Log
     {
+        /// <summary>
+        /// Show message to user. This should be switched to a rich text box
+        /// </summary>
+        /// <param name="text">Text to show user</param>
         public static void Output(string text)
         {
             MessageBox.Show(text);

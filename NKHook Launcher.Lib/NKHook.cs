@@ -16,8 +16,11 @@ namespace NKHook_Launcher.Lib
     {
         public static string nkhDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\NKHook5";
         public static string nkhEXE = nkhDir + "\\NKHook5-Injector.exe";
-        public static string gitReleaseInfo = "https://api.github.com/repos/DisabledMallis/NKHook5/releases";
+        public static string gitURL = "https://api.github.com/repos/DisabledMallis/NKHook5/releases";
 
+        /// <summary>
+        /// Open NKHook directory
+        /// </summary>
         public static void OpenNkhDir()
         {
             if (!Directory.Exists(nkhDir))
@@ -29,6 +32,10 @@ namespace NKHook_Launcher.Lib
             Process.Start(nkhDir);
         }
 
+        /// <summary>
+        /// Check if NKHook EXE exists
+        /// </summary>
+        /// <returns>Whether or not the NKHook exe exists</returns>
         public static bool DoesNkhExist()
         {
             if (File.Exists(nkhEXE))
@@ -37,6 +44,9 @@ namespace NKHook_Launcher.Lib
             return false;
         }
 
+        /// <summary>
+        /// Launch the NKHook exe
+        /// </summary>
         public static void LaunchNKH()
         {
             if (!DoesNkhExist())
@@ -47,14 +57,17 @@ namespace NKHook_Launcher.Lib
             Process.Start(nkhEXE);
         }
 
-        public static void DownloadNKH(string filename, string url, string savePath)
+        /// <summary>
+        /// Download the latest NKHook from the github releases section
+        /// </summary>
+        public static void DownloadNKH()
         {
-            Log.Output("Downloading latest " + filename + "...");
+            Log.Output("Downloading latest NKHook5...");
 
-            string git_Text = WebHandler.ReadText_FromURL(url);
+            string git_Text = WebHandler.ReadText_FromURL(gitURL);
             if (!Guard.IsStringValid(git_Text))
             {
-                MessageBox.Show("Failed to read release info for " + filename);
+                MessageBox.Show("Failed to read release info for NKHook5");
                 return;
             }
 
@@ -67,10 +80,10 @@ namespace NKHook_Launcher.Lib
                     if (!Guard.IsStringValid(link))
                         continue;
 
-                    WebHandler.DownloadFile(link, savePath);
+                    WebHandler.DownloadFile(link, nkhDir);
                 }
             }
-            Log.Output(filename + " successfully downloaded!");
+            Log.Output("NKHook5 successfully downloaded!");
         }
     }    
 }
