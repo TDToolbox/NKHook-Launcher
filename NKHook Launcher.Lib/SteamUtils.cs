@@ -33,6 +33,9 @@ namespace NKHook_Launcher.Lib
         private static Dictionary<Game, UInt64> steamGames_gameName = new Dictionary<Game, UInt64>
         {{Game.BTD5, BTD5AppID}, {Game.BTDB, BTDBAppID}, {Game.BMC, BMCAppID}};
 
+        /// <summary>
+        /// Danny's awesome steam utils class
+        /// </summary>
         private class Utils
         {
             // Takes any quotation marks out of a string.
