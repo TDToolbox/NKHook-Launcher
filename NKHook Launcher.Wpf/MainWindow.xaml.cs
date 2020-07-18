@@ -39,6 +39,7 @@ namespace NKHook_Launcher
         private void OpenBTD5Dir_Button_Click(object sender, RoutedEventArgs e)
         {
             string gameDir = SteamUtils.GetGameDir(Game.BTD5);
+            SteamUtils.GetGameDir()
             if (!Guard.IsStringValid(gameDir))
             {
                 Log.Output("Error! Failed to find BTD5 Directory");
