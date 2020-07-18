@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Forms;
 
 namespace NKHook_Launcher.Lib
 {
@@ -37,7 +38,7 @@ namespace NKHook_Launcher.Lib
             for (int i = 0; i < 150; i++)
             {
                 try{ client.DownloadFile(url, tempDest); break; }
-                catch { }
+                catch {  }
                 Thread.Sleep(50);
             }
 

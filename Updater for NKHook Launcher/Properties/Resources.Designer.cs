@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace NKHook_Launcher.Properties {
+namespace Updater_for_NKHook_Launcher.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace NKHook_Launcher.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NKHook_Launcher.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Updater_for_NKHook_Launcher.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -67,26 +67,6 @@ namespace NKHook_Launcher.Properties {
             get {
                 object obj = ResourceManager.GetObject("NKHook_launcher", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
-        /// </summary>
-        internal static System.Drawing.Icon NKHook_launcher_icon {
-            get {
-                object obj = ResourceManager.GetObject("NKHook_launcher_icon", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap nkhook_picture {
-            get {
-                object obj = ResourceManager.GetObject("nkhook_picture", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

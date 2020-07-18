@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -29,6 +30,12 @@ namespace NKHook_Launcher
 
             if (NKHook.DoesNkhExist())
                 DownloadNKH_Button.Content = "  Re-download NKHook  ";
+
+            if (!BgThread.IsRunning())
+            {
+                Thread thread = new Thread(UpdateHandler.HandleUpdates);
+                BgThread.Run(thread);
+            }
         }
 
         private void OpenNkhDir_Button_Click(object sender, RoutedEventArgs e)
@@ -39,7 +46,7 @@ namespace NKHook_Launcher
         private void OpenBTD5Dir_Button_Click(object sender, RoutedEventArgs e)
         {
             string gameDir = SteamUtils.GetGameDir(Game.BTD5);
-            SteamUtils.GetGameDir()
+            SteamUtils.GetGameDir(Game.BTD5);
             if (!Guard.IsStringValid(gameDir))
             {
                 Log.Output("Error! Failed to find BTD5 Directory");
@@ -78,7 +85,9 @@ namespace NKHook_Launcher
                 var thread = new System.Threading.Thread(() => NKHook.DownloadNKH());
                 BgThread.Run(thread);
             }
-            
+            else
+                MessageBox.Show("Can't run the game, currently doing something. " +
+                    "Please wait about 30 seconds and try again");
         }
     }
 }
