@@ -129,6 +129,6 @@
         </Viewbox>
 
 
-        <RichTextBox Margin="10" Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="4" Grid.RowSpan="3" MinHeight="50" x:Name="Console" Background="#FF767676" Foreground="White" FontFamily="Consolas" FontSize="16" BorderThickness="0.2"/>
+        <RichTextBox x:Name="Console" x:FieldModifier="public" Margin="10" Background="#FF767676" Foreground="White" Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="4" Grid.RowSpan="3" MinHeight="50" FontFamily="Consolas" FontSize="16" BorderThickness="0.2"/>
     </Grid>
 </Window>

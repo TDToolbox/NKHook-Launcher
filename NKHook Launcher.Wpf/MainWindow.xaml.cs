@@ -32,6 +32,7 @@ namespace NKHook_Launcher
             if (NKHook.DoesNkhExist())
                 DownloadNKH_Button.Content = "  Re-download NKHook  ";
 
+            
             if (!BgThread.IsRunning())
             {
                 Thread thread = new Thread(UpdateHandler.HandleUpdates);
