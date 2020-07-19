@@ -9,13 +9,6 @@ using System.Threading.Tasks;
 
 namespace NKHook_Launcher.Lib
 {
-    public enum Game
-    {
-        BTD5,
-        BTDB,
-        BMC
-    }
-
     public class SteamUtils
     {
         public const UInt64 BTD5AppID = 306020;
@@ -30,7 +23,7 @@ namespace NKHook_Launcher.Lib
         private static Dictionary<UInt64, string> steamGames = new Dictionary<UInt64, string>
         {{BTD5AppID, BTD5Name}, {BTDBAppID, BTDBName}, {BMCAppID, BMCName}};
 
-        private static Dictionary<Game, UInt64> steamGames_gameName = new Dictionary<Game, UInt64>
+        private static Dictionary<Game, UInt64> steamGames_appID_fromGame = new Dictionary<Game, UInt64>
         {{Game.BTD5, BTD5AppID}, {Game.BTDB, BTDBAppID}, {Game.BMC, BMCAppID}};
 
         /// <summary>
@@ -39,49 +32,74 @@ namespace NKHook_Launcher.Lib
         private class Utils
         {
             // Takes any quotation marks out of a string.
-            public static string StripQuotes(string str)
-            {
-                return str.Replace("\"", "");
-            }
+            public static string StripQuotes(string str) => str.Replace("\"", "");
 
-            public static string UnixToWindowsPath(string UnixPath)
-            {
-                return UnixPath.Replace("/", "\\");
-            }
+            // Convert Unix path to Windows path
+            public static string UnixToWindowsPath(string UnixPath) => 
+                UnixPath.Replace("/", "\\").Replace("\\\\", "\\");
         }
-
+        
         /// <summary>
-        /// Get steam game ID from the game name
+        /// Check if any of the game is running
         /// </summary>
-        /// <param name="gameName">Game you want the steamID for</param>
-        /// <returns>steam id for game, or zero if it failed</returns>
-        public static UInt64 GetGameID(Game gameName)
-        {
-            if (gameName == Game.BTD5)
-                return BTD5AppID;
-            else if (gameName == Game.BTDB)
-                return BTDBAppID;
-            else if (gameName == Game.BMC)
-                return BMCAppID;
-            return 0;
-        }
+        /// <param name="game">Which game to get the ID for</param>
+        /// <returns>Whether or not the game is running</returns>
+        public static bool IsGameRunning(Game game) => IsGameRunning(steamGames_appID_fromGame[game]);
 
         /// <summary>
         /// Check if any of the game is running
         /// </summary>
+        /// <param name="appid">The steam appID for the game you want to check</param>
         /// <returns>Whether or not the game is running</returns>
-        public static bool IsGameRunning(Game gameName)
+        public static bool IsGameRunning(UInt64 appid)
         {
             int isGameRunning = (int)Registry.GetValue(Registry.CurrentUser +
-                "\\Software\\Valve\\Steam\\Apps\\" + GetGameID(gameName), "Running", null);
+                "\\Software\\Valve\\Steam\\Apps\\" + appid, "Running", null);
             if (isGameRunning == 1) // Cant type true because its of type System.Bool.
-            {
                 return true;
-            }
-            else
-            {
+
+            return false;
+        }
+
+        /// <summary>
+        /// Use the steam game's app ID to check if the game is installed
+        /// </summary>
+        /// <param name="game">The game you are checking</param>
+        /// <returns>true or false, whether or not the game is installed</returns>
+        public static bool IsGameInstalled(Game game) => IsGameInstalled(steamGames_appID_fromGame[game]);
+
+        /// <summary>
+        /// Use the steam game's app ID to check if the game is installed
+        /// </summary>
+        /// <param name="appid">Steam game's app ID</param>
+        /// <returns>true or false, whether or not the game is installed</returns>
+        public static bool IsGameInstalled(UInt64 appid)
+        {
+            int isGameInstalled = (int)Registry.GetValue(Registry.CurrentUser +
+                "\\Software\\Valve\\Steam\\Apps\\" + appid, "Installed", null);
+            if (isGameInstalled != 1)
                 return false;
-            }
+            
+            return true;
+        }
+
+        /// <summary>
+        /// Get steam directory from registry
+        /// </summary>
+        /// <returns>returns steam directory or null</returns>
+        public static string GetSteamDir() => (string)Registry.GetValue(Registry.CurrentUser +
+                "\\Software\\Valve\\Steam", "SteamPath", null);
+
+        /// <summary>
+        /// Check if steam is installed by checking if it's game directory exists
+        /// </summary>
+        /// <returns>true or false, whether or not steam directory exists</returns>
+        public static bool IsSteamInstalled()
+        {
+            if (GetSteamDir() == null)
+                return false;
+
+            return true;
         }
 
         /// <summary>
@@ -96,7 +114,7 @@ namespace NKHook_Launcher.Lib
         /// </summary>
         /// <param name="game">Game to get directory for</param>
         /// <returns>Game directory for game</returns>
-        public static string GetGameDir(Game game) => GetGameDir(steamGames_gameName[game]);
+        public static string GetGameDir(Game game) => GetGameDir(steamGames_appID_fromGame[game]);
 
         /// <summary>
         /// Get game directory from steam app ID and game name
@@ -106,8 +124,7 @@ namespace NKHook_Launcher.Lib
         /// <returns>Game directory for game</returns>
         public static string GetGameDir(UInt64 appid, string gameName)
         {
-            string steamDir = (string)Registry.GetValue(Registry.CurrentUser +
-                "\\Software\\Valve\\Steam", "SteamPath", null);
+            string steamDir = GetSteamDir();
             if (steamDir == null)
             {
                 Log.Output("Failed to find steam in registry!");
@@ -117,10 +134,7 @@ namespace NKHook_Launcher.Lib
             //
             // Check if game is installed first
             //
-
-            int isGameInstalled = (int)Registry.GetValue(Registry.CurrentUser +
-                "\\Software\\Valve\\Steam\\Apps\\" + appid, "Installed", null);
-            if (isGameInstalled != 1)
+            if (!IsGameInstalled(appid))
             {
                 Log.Output(gameName + " is not installed!");
                 return null;
@@ -145,27 +159,20 @@ namespace NKHook_Launcher.Lib
                 MatchCollection matches = reg.Matches(configFile[i]);
                 for (int match = 0; match < matches.Count; match++)
                 {
+                    if (match == 1)
+                        SteamLibDirs.Add(Utils.UnixToWindowsPath(Utils.StripQuotes(matches[match].Value.ToString())));
+
                     if (match == 0)
                     {
-
-                        if (int.TryParse(Utils.StripQuotes(matches[match].Value.ToString()), out int n))
-                        {
-                            // We dont actually need N, we just need to check if the value is an integer.
-                        }
-                        else
-                        {
+                        if (!int.TryParse(Utils.StripQuotes(matches[match].Value.ToString()), out int n))
                             break;
-                        }
-                    }
-                    if (match == 1)
-                    {
-                        SteamLibDirs.Add(Utils.UnixToWindowsPath(Utils.StripQuotes(matches[match].Value.ToString())));
                     }
                 }
             }
+
             for (int i = 0; i < SteamLibDirs.Count; i++)
             {
-                string GameFolder = (SteamLibDirs[i] + "\\steamapps\\common\\" + gameName).Replace("\\\\", "\\");
+                string GameFolder = (SteamLibDirs[i] + "\\steamapps\\common\\" + gameName);
                 if (Directory.Exists(GameFolder))
                 {
                     //Log.Output("Found " + gameName + " directory at: " + GameFolder);
