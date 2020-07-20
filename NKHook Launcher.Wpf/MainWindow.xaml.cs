@@ -33,16 +33,29 @@ namespace NKHook_Launcher
             Log.Output("Welcome to NKHook5 Launcher!");
 
             if (NKHook.DoesNkhExist())
-                DownloadNKH_Button.Content = "  Re-download NKHook  ";            
+                DownloadNKH_Button.Content = "  Re-download NKHook  ";
 
-            Thread thread = new Thread(UpdateHandler.HandleUpdates);
+
+            UpdateHandler update = new UpdateHandler
+            {
+                GitApiReleasesURL = "https://api.github.com/repos/TDToolbox/NKHook-Launcher/releases",
+                ProjectName = "NKHook5 Launcher",
+                ProjectExePath = Environment.CurrentDirectory + "\\NKHook Launcher.exe",
+                UpdaterExeName = "Updater for NKHook Launcher.exe",
+                UpdatedZipName = "NKHook Launcher.zip"
+            };
+
+            Thread thread = new Thread(update.HandleUpdates);
             BgThread.AddToQueue(thread);
         }
 
         private void Instance_MessageLogged(object sender, Log.LogEvents e)
         {
-            Console.AppendText(e.Message);
-            Console.ScrollToEnd();
+            Console.Dispatcher.BeginInvoke((Action)(() =>
+            {
+                Console.AppendText(e.Message);
+                Console.ScrollToEnd();
+            }));            
         }
 
         private void OpenNkhDir_Button_Click(object sender, RoutedEventArgs e)

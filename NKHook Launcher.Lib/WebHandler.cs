@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace NKHook_Launcher.Lib
 {
-    class WebHandler
+    public class WebHandler
     {
         private static WebClient client;
 
