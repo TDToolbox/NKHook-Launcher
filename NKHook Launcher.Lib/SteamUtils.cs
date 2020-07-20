@@ -20,8 +20,8 @@ namespace NKHook_Launcher.Lib
         private static Dictionary<UInt64, string> steamGames = new Dictionary<UInt64, string>
         {{BTD5AppID, BTD5Name}, {BTDBAppID, BTDBName}, {BMCAppID, BMCName}};
 
-        private static Dictionary<Game, UInt64> steamGames_appID_fromGame = new Dictionary<Game, UInt64>
-        {{Game.BTD5, BTD5AppID}, {Game.BTDB, BTDBAppID}, {Game.BMC, BMCAppID}};
+        private static Dictionary<GameType, UInt64> steamGames_appID_fromGame = new Dictionary<GameType, UInt64>
+        {{GameType.BTD5, BTD5AppID}, {GameType.BTDB, BTDBAppID}, {GameType.BMC, BMCAppID}};
 
         /// <summary>
         /// Danny's awesome steam utils class
@@ -41,7 +41,7 @@ namespace NKHook_Launcher.Lib
         /// </summary>
         /// <param name="game">Which game to get the ID for</param>
         /// <returns>Whether or not the game is running</returns>
-        public static bool IsGameRunning(Game game) => IsGameRunning(steamGames_appID_fromGame[game]);
+        public static bool IsGameRunning(GameType game) => IsGameRunning(steamGames_appID_fromGame[game]);
 
         /// <summary>
         /// Check if any of the game is running
@@ -63,7 +63,7 @@ namespace NKHook_Launcher.Lib
         /// </summary>
         /// <param name="game">The game you are checking</param>
         /// <returns>true or false, whether or not the game is installed</returns>
-        public static bool IsGameInstalled(Game game) => IsGameInstalled(steamGames_appID_fromGame[game]);
+        public static bool IsGameInstalled(GameType game) => IsGameInstalled(steamGames_appID_fromGame[game]);
 
         /// <summary>
         /// Use the steam game's app ID to check if the game is installed
@@ -111,7 +111,7 @@ namespace NKHook_Launcher.Lib
         /// </summary>
         /// <param name="game">Game to get directory for</param>
         /// <returns>Game directory for game</returns>
-        public static string GetGameDir(Game game) => GetGameDir(steamGames_appID_fromGame[game]);
+        public static string GetGameDir(GameType game) => GetGameDir(steamGames_appID_fromGame[game]);
 
         /// <summary>
         /// Get game directory from steam app ID and game name

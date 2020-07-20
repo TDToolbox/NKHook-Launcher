@@ -67,7 +67,7 @@ namespace NKHook_Launcher.Lib
             string git_Text = WebHandler.ReadText_FromURL(gitURL);
             if (!Guard.IsStringValid(git_Text))
             {
-                MessageBox.Show("Failed to read release info for NKHook5");
+                Log.Output("Failed to read release info for NKHook5");
                 return;
             }
 

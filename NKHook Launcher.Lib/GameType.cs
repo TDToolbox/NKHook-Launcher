@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NKHook_Launcher.Lib
 {
-    public enum Game
+    public enum GameType
     {
         BTD5,
         BTDB,

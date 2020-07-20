@@ -10,10 +10,10 @@ namespace NKHook_Launcher.Lib
     public class Guard
     {
         /// <summary>
-        /// Check if a string is valid
+        /// Checks if string is empty or null. 
         /// </summary>
-        /// <param name="text">string to check</param>
-        /// <returns>whether or not string is valid</returns>
+        /// <param name="text">String to check</param>
+        /// <returns>bool whether or not string is valid</returns>
         public static bool IsStringValid(string text)
         {
             if (text != "" && text != null)
@@ -37,26 +37,14 @@ namespace NKHook_Launcher.Lib
                 dynamic result = serializer.DeserializeObject(text);
                 return true;
             }
-            catch
-            {
-                return false;
-            }
+            catch { return false; }
         }
 
         /// <summary>
-        /// Check if file's text is valid json
+        /// Check if FileInfo file contains valid json
         /// </summary>
-        /// <param name="file">Read all text from this file and check if it's valid json</param>
-        /// <returns>Whether or not json file has valid json</returns>
-        public static bool IsJsonValid(FileInfo file)
-        {
-            if (!File.Exists(file.FullName))
-            {
-                Log.Output("Unable to validate json for the file: \"" + file.FullName + "\" File does not exist");
-                return false;
-            }
-
-            return IsJsonValid(File.ReadAllText(file.FullName));
-        }
+        /// <param name="file">FileInfo to check</param>
+        /// <returns>Whether or not FileInfo file contains valid json</returns>
+        public static bool IsJsonValid(FileInfo file) => IsJsonValid(File.ReadAllText(file.FullName));
     }
 }

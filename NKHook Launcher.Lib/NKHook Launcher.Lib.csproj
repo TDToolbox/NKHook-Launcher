@@ -55,7 +55,7 @@
   <ItemGroup>
     <Compile Include="BgThread.cs" />
     <Compile Include="FileIO.cs" />
-    <Compile Include="Game.cs" />
+    <Compile Include="GameType.cs" />
     <Compile Include="GitApi.cs" />
     <Compile Include="Guard.cs" />
     <Compile Include="Log.cs" />
